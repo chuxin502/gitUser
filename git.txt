@@ -1,0 +1,62 @@
+*********************************
+git 提交代码及冲突解决：
+1.git add .
+2.git commit -m '  '
+3.git pull --rebase     获取最新代码 (如果有冲突，继续一下步骤，如果无 直接git push)
+4.git status （查看冲突的文件）
+5.git add （修改冲突文件后，添加文件到缓存区）
+6.git rebase --continue?
+7.git commit --amend?
+8.git push
+
+
+1.登录到gitlab，从 “代码管理员/xyz” fork代码到自己的仓库；
+2. clone自己远端的代码到本地，比如： zyx的代码：git clone http://gitlab.chuxin.com/zyx/xyz.git
+ 例：git clone -b delivery-erp git@gitlab.chuxin.com:gitadmin/xyz.git
+3. 添加个人仓库的上游： 比如： git remote add upstream http://gitlab.chuxin.com/gitadmin/xyz.git
+4. 修改自己的代码，commit代码；
+5. 在每次push代码之前，执行：git pull upstream master（或者别的分支），使得自己本地的代码也上游的代码保持一致，如果出现冲突则解决；
+6. git push origin master（或者别的分支）；
+7. 提交merge request到上游“代码管理员/xyz”，合并完成。
+
+命令行：
+1.git remote add upstream git@gitlab.chuxin.com:gitadmin/xyz.git 添加远程上游
+2.git fetch upstream   更新同步代码（创建新分支时需要同步）
+3.git checkout -b delivery-04-04 remotes/upstream/delivery-04-04    创建并切换到某个分支
+4.git checkout delivery-04-04    切换到某个分支
+5.git pull upstream delivery-04-04   从某个分支拉取代码
+6.git push origin delivery-04-04     提交代码到某个分支
+7.git branch   查看分支
+8.history   查看历史命令记录
+git remote -v  查看主机对应的地址
+git remote set-url origin [url]    修改远程仓库地址
+
+
+在本地创建和远程分支对应的分支，使用git checkout -b branch-name origin/branch-name，本地和远程分支的名称最好一致；
+建立本地分支和远程分支的关联，使用git branch --set-upstream-to branch-name origin/branch-name；
+从远程抓取分支，使用git pull，如果有冲突，要先处理冲突。
+
+
+提交代码：
+1.git add .
+2.git commit -m "备注"
+3.git pull upstream delivery-0809     从delivery-0809 分支拉取代码
+4.git push -u origin delivery-0809     提交代码到自己仓库delivery-0809 分支        
+
+每周拉取更新某分支代码
+1.刷新分支：$git fetch
+2.查看分支：$git branch -a
+3.新建并切换分支：$ git checkout -b delivery-0712 remotes/upstream/delivery-0712 （本地名 远端名）
+4.拉取远端代码：$git pull upstream delivery-0712
+5.本地代码提交到自己仓库：$ git push -u origin delivery-0712:delivery-0712
+
+刚开始拉取一个分支：
+1.先在本地新建一个文件夹。在文件夹里进入小黑框， git clone（delivery-erp）git@gitlab.chuxin.com:gitadmin/xyz.git （fork到自己本地的链接）
+2.代码clone下来之后去文件夹里，进入小黑框，添加个人仓库的上游：git remote add upstream http://gitlab.chuxin.com/gitadmin/xyz.git（管理员的链接）
+3.git fetch upstream更新同步代码（创建新分支时需要同步）
+4.代码就是最新的了
+git pull upstream  拉取远端代码
+git branch -a 查看分支
+5.git checkout -b delivery-04-04 remotes/upstream/delivery-04-04    创建并切换到某个分支
+
+gitlab里面的repository的branches可以删除不想提交的东西
